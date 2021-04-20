@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
+import os
 import sys
+import pathlib
 import jinja2
 import benedict
 import base64
@@ -49,6 +51,33 @@ def base64_encode(i):
     return base64.b64encode(i).decode("utf-8")
 
 env.filters['base64_encode'] = base64_encode
+
+def stored(filtered, file_path):
+    file_path = os.path.expanduser(file_path)
+    file = pathlib.Path(file_path)
+
+    if file.is_dir():
+        print("ERROR: " + sys.argv[0] + ": " + file_path + " is a directory.")
+        exit(1)
+    
+    if file.is_file():
+        out = ""
+        with open(file_path, 'r') as f:
+            out += f.read()
+        return out
+    
+    # create directory
+    file.parent.mkdir(parents=True, exist_ok=True)
+
+    # open and write file with filtered
+    f = open(file_path, 'w')
+    f.write(filtered)
+    f.close()
+
+    # Return the filtered thing to the template.
+    return filtered
+
+env.filters['stored'] = stored
 
 def rand(n):
     return secrets.token_hex(int(n/2))
