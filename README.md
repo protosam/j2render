@@ -28,6 +28,10 @@ $ cat <<EOF | j2render a.b.c=xyz foo=bar mybool=False integer_test=3
 MyBool is {% if mybool %}true{% else %}false{% endif %}
 {% if (integer_test | int) == 3 %}Integers can be compared to integers{% endif %}
 {% if integer_test == "3" %}Integers can be compared to strings{% endif %}
+{{ "helloworld" | base64_encode }}
+{{ "helloworld" | base64_encode | base64_decode }}
+{{ rand(32) }}
+{{  rand(32) | base64_encode | base64_decode | stored("~/.scalabledelivery/" + foo + "/test.txt") }}
 EOF
 ```
 
