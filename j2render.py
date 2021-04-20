@@ -79,6 +79,7 @@ def stored(filtered, file_path):
     return filtered
 
 env.filters['stored'] = stored
+env.globals['stored'] = stored
 
 def rand(n):
     return secrets.token_hex(int(n))
