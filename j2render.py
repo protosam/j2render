@@ -12,7 +12,7 @@ data["j2render"] = {
     'version': '1.0.0-alpha'
 }
 
-if len(sys.argv) < 2  or sys.argv[1] == "--help" or sys.argv[1] == "-h":
+if sys.argv[1] == "--help" or sys.argv[1] == "-h":
     print("Usage: " + sys.argv[0] + " [variable=value] [variable=value] [variable=value] ...")
     print()
     print("  Example:")
