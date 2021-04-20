@@ -31,7 +31,7 @@ MyBool is {% if mybool %}true{% else %}false{% endif %}
 {{ "helloworld" | base64_encode }}
 {{ "helloworld" | base64_encode | base64_decode }}
 {{ rand(32) }}
-{{  rand(32) | base64_encode | base64_decode | stored("~/.scalabledelivery/" + foo + "/test.txt") }}
+{{  rand(32) | base64_encode | base64_decode | stored("~/.some_config_path/" + foo + "/test.txt") }}
 EOF
 ```
 
