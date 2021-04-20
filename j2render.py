@@ -12,7 +12,8 @@ data["j2render"] = {
     'version': '1.0.0-alpha'
 }
 
-if sys.argv[1] == "--help" or sys.argv[1] == "-h":
+
+if len(sys.argv) > 1 and (sys.argv[1] == "--help" or sys.argv[1] == "-h"):
     print("Usage: " + sys.argv[0] + " [variable=value] [variable=value] [variable=value] ...")
     print()
     print("  Example:")
@@ -80,7 +81,7 @@ def stored(filtered, file_path):
 env.filters['stored'] = stored
 
 def rand(n):
-    return secrets.token_hex(int(n/2))
+    return secrets.token_hex(int(n))
 
 env.globals['rand'] = rand
 
