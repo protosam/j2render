@@ -2,6 +2,8 @@
 import sys
 import jinja2
 import benedict
+import base64
+import secrets
 
 data = benedict.benedict({})
 data["j2render"] = {
@@ -33,7 +35,27 @@ for i in sys.argv:
 # slurp up STDIN.
 j2script = "".join(sys.stdin.readlines())
 
-tpl = jinja2.Environment(loader=jinja2.BaseLoader).from_string(j2script)
+env = jinja2.Environment(loader=jinja2.BaseLoader)
+
+# Add filters to jinja.
+def base64_decode(i): 
+    i = i.encode('utf-8')
+    return base64.b64decode(i).decode("utf-8")
+
+env.filters['base64_decode'] = base64_decode
+
+def base64_encode(i): 
+    i = i.encode('utf-8')
+    return base64.b64encode(i).decode("utf-8")
+
+env.filters['base64_encode'] = base64_encode
+
+def rand(n):
+    return secrets.token_hex(int(n/2))
+
+env.globals['rand'] = rand
+
+tpl = env.from_string(j2script)
 output = tpl.render(data)
 
 print(output)
